@@ -1,0 +1,49 @@
+# 설정저장 양식 yaml 
+# 아직은 광범위하게 쓰이지는 않음 
+# 유사 파일로 xml(태그가 복잡), json 등 있음  
+
+server:
+  port: 8098
+  servlet:
+    session:
+      tracking-modes: cookie
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/memberboard200402?serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: 1234
+  thymeleaf:
+    cache: false 
+
+# spring.jpa.database-platform = org.hibernate.dialect.MySQL5InnoDBDialect 이런식으로도 쓸수 있음. 
+# 하지만 아래 방식으로 쓰는게 더 깔끔      
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect  # Mysql을 사용하기 위한 엔진 
+    open-in-view: false
+    show-sql: true # 콘솔창에 쿼리문 출력됨 
+    hibernate:
+      #format_sql: true # 딱히 별 영향이 없음 
+      ddl-auto: update
+      # ddl-auto : create(실행할 때 마다 생성), validate(변경여부 확인 후 출력), update(스키마가 변경된 경우에만 실행, DB 테이블을 정의하고 쓸때는 이 옵션 사용)
+
+# 로깅 설정 값 :
+#   ERROR : 오류가 발생하는 경우 표시 
+#   WARN : 실행에는 문제가 없지만 에러가 날 수 있다는 경고 
+#   INFO : 상태 변경 등과 같은 정보성 메시지 
+#   DEBUG : 디버깅 정보 
+#   TRACE : 모든 로그 출력   
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: TRACE
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
+# 아래와 같이 콘솔에 보면 어디서 주는 로그인지 구분 됨                   
+#2020-05-14 11:50:38.317 TRACE 3396 --- [nio-8098-exec-1] o.h.type.descriptor.sql.BasicBinder      : binding parameter [1] as [INTEGER] - [1]
+#2020-05-14 11:50:38.383 DEBUG 3396 --- [nio-8098-exec-1] org.hibernate.SQL                        : select commentent0_.cnumber as cnumber1_1_,            
+
